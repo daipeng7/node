@@ -1,0 +1,4 @@
+.vscode
+.vscode\*
+stderr.log
+stdout.log
