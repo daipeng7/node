@@ -34,6 +34,7 @@ const bindEvent = (server) => {
     } );
 }
 bindEvent(server);
+
 server.listen( 8089,()=>{
     console.log( '服务器已经启动！' );
 } );

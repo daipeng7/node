@@ -47,4 +47,4 @@ console.log( require.cache);
 
 // 8.seImmediate() setInterval()  setTimeout()
 
-
+exports.a = 111;
