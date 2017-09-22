@@ -6,7 +6,10 @@ const fs = require( 'fs' );
 /**
  * fs.read( fd, buffer, offset, length, position,callback );
  *      fd : 指定的文件
- *      buffer : 
+ *      buffer : 自己设置的buffe缓冲区
+ *      offset : 从buffer的什么位置开始写入到buffer
+ *      length : 写入buffer的字节长度
+ *      position : 从fd文件的第几个字节开始读取
  */  
 
 /**

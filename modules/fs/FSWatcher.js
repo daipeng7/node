@@ -25,6 +25,6 @@ fswatcher.on( 'error', (error)=>{
     console.log( error );
 } );
 // close 关闭监控事件
-setTimeout( ()=>{
-    fswatcher.close();
-}, 3000  );
+// setTimeout( ()=>{
+//     fswatcher.close();
+// }, 3000  );
