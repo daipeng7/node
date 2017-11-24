@@ -1,6 +1,8 @@
-/**
- * ES6 中的TypedArray ：
- * var a = new ArrayBuffer( 8 )
+/** 
+ * 
+ * ES6 中的ArrayBuffer、DataView、TypedArray ：
+ * DataView 数据视图。提供了一个与平台中字节在内存中的排列顺序（字节序）无关的从ArrayBuffer读写的多数字类型的底层接口。一句话就是
+ * var a = new ArrayBuffer( 8 ) 固定长度的原始二进制数据缓存区。你不能直接操作ArrayBuffer.需要DataView或者使用TypeArray来确定类型后才能进行读取
  * var v1 = new Int8Array( a )  //Int8Array类型二进制数据，每一份的长度为1个字节
  * var v2 = new int16Array( a ) //Int16Array类型二进制数据，每一份的长度为2个字节
  * var v = new int32Array( a ) //Int32Array类型二进制数据，每一份的长度为4个字节
