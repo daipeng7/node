@@ -24,6 +24,15 @@
 //  windows系统衍生.bat  .cmd
 
 const { spawn } = require( 'child_process' );
+const fs = require('fs');
+const path = require('path');
+const resolve = function(file) {
+    return path.resolve(__dirname, file);
+}
+const out = fs.openSync(resolve('./out.log'), 'a');
+const error = fs.openSync(resolve('./error.log'), 'a');
+
+
 
 // console.log(process.env);//环境变量
 /**
@@ -45,8 +54,8 @@ const { spawn } = require( 'child_process' );
  * 2. 'inherit' 继承stdio的意思，等同于 [process.stdin, process.stdout, process.stderr] 或 [0,1,2]，子进程直接使用父进程的 IO
  * 3. 'ignore'：不建立 pipe 通道，不能 pipe、不能监听 data 事件、IO 全被忽略
  */ 
-const subprocess = spawn( 'node', ['./child1.js'], {
-    stdio : ['ignore','ignore','ignore'],//这些io通道还可以建立日志输出通道
+const subprocess = spawn( 'node', [resolve('./child1.js')], {
+    stdio : ['ignore', out, error],//这些io通道还可以建立日志输出通道,如果需要创建一个完整的守护进程需要将stdio：ignore
     detached : true //子进程会成为新的进程组和会话领导，在父进程退出后也能运行；但是有个前提，就是子进程的stdio必须没有被连接到父进程;设置为true以后subprocess.stdio.下面的接口流都为null
 } );
 // console.log( subprocess.stdout );

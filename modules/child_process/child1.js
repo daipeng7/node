@@ -1,5 +1,5 @@
 // child_process1
-setTimeout( () => {
+setInterval( () => {
     console.log( 'I am child process' );   
 }, 10000 );
 
