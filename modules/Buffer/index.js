@@ -1,11 +1,17 @@
 /** 
  * 
  * ES6 中的ArrayBuffer、DataView、TypedArray ：
+ * ArrayBuffer 构造函数,用来创建一个指定字节长度的 ArrayBuffer 对象 
+ *      buffer =  new ArrayBuffer(length) 对象用来表示通用的、固定长度的原始二进制数据缓冲区,该对象除了slice方法（复制新buffer, 但已不在标准中）外不具有其他可操作缓冲区数据的方法
+ * TypedArray 构造函数，子类为多种类型的ArrayBuffer视图化类
+ *      bufferView new Int8Array(buffer [, byteOffset [, length]]) 类似数组的操作方式
+ * DataView 架构在ArrayBuffer类之上的操作类，用于提供操作ArrayBuffer的方法,与TypedArray的区别是DataView提供了对所有TypedArray类型对象的操作
+ *      bufferView = new DataView(buffer[, byteOffset[, byteLength]]) buffer必须是ArrayBuffer实例，如果是TypedArray实例对象，可以使用他的buffer属性
  * DataView 数据视图。提供了一个与平台中字节在内存中的排列顺序（字节序）无关的从ArrayBuffer读写的多数字类型的底层接口。一句话就是
- * var a = new ArrayBuffer( 8 ) 固定长度的原始二进制数据缓存区。你不能直接操作ArrayBuffer.需要DataView或者使用TypeArray来确定类型后才能进行读取
- * var v1 = new Int8Array( a )  //Int8Array类型二进制数据，每一份的长度为1个字节
- * var v2 = new int16Array( a ) //Int16Array类型二进制数据，每一份的长度为2个字节
- * var v = new int32Array( a ) //Int32Array类型二进制数据，每一份的长度为4个字节
+ * var a = new ArrayBuffer( 8 ) 固定长度的原始二进制数据缓存区(分配了8个字节的内存)。你不能直接操作ArrayBuffer.需要DataView或者使用TypeArray来确定类型后才能进行读取
+ * var v1 = new Int8Array( a )  //Int8Array类型二进制数据,byteLength = 8，[0,0,0,0,0,0,0,0]，每一份的长度为1个字节
+ * var v2 = new int16Array( a ) //Int16Array类型二进制数据,byteLength = 8，[0,0,0,0]，每一份的长度为2个字节
+ * var v = new int32Array( a ) //Int32Array类型二进制数据,byteLength = 8，[0,0]，，每一份的长度为4个字节
  */ 
 
 /**
@@ -65,11 +71,11 @@
 // buf5 = Buffer.alloc( 5, 'a', 'base64' );
 // console.log( buf5 );//<Buffer 98 8b 09 ca 82>
 
-// Buffer.byteLength( string[,encoding] )  string代表要计算字节长度的数据，如果string 是字符串 encoding 默认utf8
+// Buffer.byteLength( string[,encoding] )  必填，string代表要计算字节长度的数据，如果string 是字符串 encoding 默认utf8
 const buf6 = Buffer.from( [1,2,3,4,5,6] );
 console.log( Buffer.byteLength( buf6 ) );//6
 console.log( Buffer.byteLength( '大哦哪个那' ) );//15
-console.log( Buffer.byteLength(  ) );
+console.log( Buffer.byteLength( 'true' ) );
 
 
 
