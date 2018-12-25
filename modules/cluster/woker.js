@@ -9,7 +9,7 @@ const worker = function() {
     http.createServer((req, res) => {
         cluster.worker.send('我来自worker进程');
         res.writeHead(200);
-        res.end('你好世界\n');
+        res.end('你好世界\n', 'utf8');
     }).listen(8000, '0.0.0.0');
 
     console.log(`工作进程 ${process.pid} 已启动`);
