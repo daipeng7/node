@@ -24,8 +24,13 @@
  */ 
 const path = require( 'path' );
 //1. require.resolve()方法用于解析加载文件的路径，但是不加载模块
-const test = require.resolve( './test' );
-console.log( test );
+const test = require( './test' );
+console.log(test.x);
+console.log(test.getX());
+test.add(1);
+console.log(test.x);
+console.log(test.getX());
+
 
 // 2.当前模块的文件夹名称
 console.log( __dirname );
