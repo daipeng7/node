@@ -6,21 +6,25 @@
  *      3、然后将各种的计算结果发送给对方
  *      4、最后双方根据对方的结果计算出密钥
  * 
- * 选取两个大数p和g并公开，其中p是一个素数，g是p的一个模p本原单位根(primitive root module p)，所谓本原单位根就是指在模p乘法运算下，g的1次方，2次方……(p-1)次方这p-1个数互不相同，并且取遍1到p-1；
+ 假设客户端、服务端挑选两个素数a、p（都公开），然后
 
-对于Alice(其中的一个通信者)，随机产生一个整数a，a对外保密，计算Ka = g^a mod p，将Ka发送给Bob； 
-对于Bob(另一个通信者)，随机产生一个整数b，b对外保密，计算Kb = g^b mod p，将Kb发送给Alice；
+    客户端：选择自然数Xa，Ya = a^Xa mod p，Ya为客户端的公钥，发送给服务端；
 
-在Alice方面，收到Bob送来的Kb后，计算出密钥为：key = Kb^a mod p = g^(b*a) mod p mod p； 
-对于Bob，收到Alice送来的Ka后，计算出密钥为：key = Ka ^ b mod p = g^(a*b) mod p mod p。
+    服务端：选择自然数Xb，Yb = a^Xb mod p，Ya为服务端的公钥，发送给客户端；
 
-攻击者知道p和g，并且截获了Ka和Kb，但是当它们都是非常大的数的时候，依靠这四个数来计算a和b非常困难，这就是离散对数数学难题。
+    客户端：计算 Ka = Yb^Xa mod p
+
+    服务端：计算 Kb = Ya^Xb mod p
+
+    最后会发现 Ka = Kb
 */
 
 const crypto = require('crypto');
 
-const primeLength = 1024; // 素数p的长度
-const generator = 5; // 素数a
+const primeLength = 1024; // 模数p的长度,可以经常变化
+const generator = 5; // 生成元，如果不设置默认为2
+
+// client和server都利用公开的a,p进行计算出各自的公、私钥对，然后通过交换彼此的公钥来计算出相同的加密字段
 
 // 创建客户端的DH实例
 const client = crypto.createDiffieHellman(primeLength, generator);
@@ -28,7 +32,8 @@ const client = crypto.createDiffieHellman(primeLength, generator);
 const clientKey = client.generateKeys();
 
 // 创建服务端的DH实例，拆用跟客户端相同的素数a、p
-const server = crypto.createDiffieHellman(client.getPrime(), client.getGenerator());
+const clientP = client.getPrime(); // 从客户端传到了服务端,也就是https在进行SSL/TSL协商的时候生成的随机数
+const server = crypto.createDiffieHellman(clientP, generator);
 // 产生公、私钥对，Yb = a^Xb mod p
 const serverKey = server.generateKeys();
 

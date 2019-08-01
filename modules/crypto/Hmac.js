@@ -4,5 +4,7 @@
 const crypto = require('crypto');
 const secret = 'secret';
 const hmac = crypto.createHmac('sha256', secret);
+const hmac2 = crypto.createHmac('sha256', secret);
 
 console.log(hmac.update('dddd').digest('hex'));
+console.log(hmac2.update('dddd').digest('hex'));

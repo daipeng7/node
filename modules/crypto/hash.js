@@ -6,5 +6,7 @@ const crypto = require('crypto');
 console.log(require.resolve('crypto'));
 
 const hash = crypto.createHash('sha256'); // 摘要计算的算法是根据平台openssl支持的算法来的，常用的有sha256/sha1/md5
+const hash2 = crypto.createHash('sha256'); // 摘要计算的算法是根据平台openssl支持的算法来的，常用的有sha256/sha1/md5
 
 console.log(hash.update('dfdfdf').digest('hex')); // 调用digest方法后不能再进行计算，否则报错
+console.log(hash2.update('dfdfdf').digest('hex')); // 调用digest方法后不能再进行计算，否则报错

@@ -50,17 +50,25 @@
 
         master伪代码如下：
         worker.process.on('internalMessage', internal(worker, onmessage));
+ *
+ * master、worker的创建都是在一个启动文件来区分，原理：
+ *      cluster.for() ===> child_process.for(master) 所以创建多少个worker（也就是执行多少次cluster.fok()）就会执行多少次master所在启动文件。用来区分的关键就是cluster.isMaster
+ *      因为cluster.isMaster默认为true，所以第一次为主进程后面的都是worker进程
+ *      重点：因为master的listening监听了worker进程的lisent方法的执行，在net模块中对listen的执行会去判断当前进程是否是cluster的master进程，如果是就将worker传进来的server直接拿来创建监听，如果是worker进程就不创建监听，
+ *      而是通知master进程（如果已经创建了就加入轮询，如果没有创建监听就创建，并且保留了worker进程的NODE_UNIQUE_ID，当请求来的时候就直接将socket信息交给选中的worker进程的server（没有绑定端口）去处理）的listening事件然后去加入轮询监控
+ *      所以关键就是：net模块对listen函数做了场景区分来实现的cluster
  * 
  */
 const os = require('os');
 const cluster = require('cluster');
 const cpuNum = os.cpus().length;
 
+console.log('1====>', cluster.isMaster, '次数');
 if (cluster.isMaster) {
     console.log(`主进程 ${process.pid} 正在运行`);
 
     // 衍生工作进程。
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
         cluster.fork();
     }
 

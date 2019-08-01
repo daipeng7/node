@@ -5,10 +5,10 @@ const http = require('http');
 
 const worker = http.createServer((req, res) => {
     console.log('我是worker');
-}).listen(8000, '127.0.0.1');
+});
 
-worker.on('internalMessage', (message) => {
-    console.log(worker);
+worker.on('message', (message) => {
+    // console.log(worker);
     console.log(message);
 });
 
@@ -21,6 +21,7 @@ setTimeout(() => {
             cmd: 'NODE_CLUSTER',
             act: 'queryServer'
         };
-        worker.emit('internalMessage', message);
+        worker.emit('message', message);
     }).listen(worker);
+    worker.listen(8000, '127.0.0.1');
 }, 2000);
